@@ -1,4 +1,4 @@
-import { FilesetResolver, HandLandmarker } from '@mediapipe/tasks-vision';
+import type { HandLandmarker } from '@mediapipe/tasks-vision';
 
 let handLandmarker: HandLandmarker | null = null;
 let cameraStream: MediaStream | null = null;
@@ -60,11 +60,13 @@ async function startCamera() {
         statusText.textContent = 'Loading hand tracking model...';
 
         if (!handLandmarker) {
+            const { FilesetResolver, HandLandmarker: HandLandmarkerClass } =
+                await import('@mediapipe/tasks-vision');
             const vision = await FilesetResolver.forVisionTasks(
                 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm'
             );
 
-            handLandmarker = await HandLandmarker.createFromOptions(vision, {
+            handLandmarker = await HandLandmarkerClass.createFromOptions(vision, {
                 baseOptions: {
                     modelAssetPath:
                         'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',

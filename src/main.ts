@@ -263,7 +263,7 @@ const fragmentShader = `
 
     if (d > 0.5) discard;
 
-    float core = smoothstep(0.5, 0.0, d);
+    float core = 1.0 - smoothstep(0.0, 0.5, d);
     float glow = exp(-d * 12.0);
 
     vec3 blue = vec3(0.12, 0.65, 1.0);
